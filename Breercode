@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Brewer's Codex — Intermediate Craft Beer Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber: #C8691A;
+    --gold: #E8A83E;
+    --cream: #F5EDD8;
+    --dark: #1A1208;
+    --bark: #3D2610;
+    --foam: #FAF3E0;
+    --copper: #B5541C;
+    --malt: #7A4A1E;
+    --haze: #D4956A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--dark);
+    color: var(--cream);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 4rem 2rem;
+    background: radial-gradient(ellipse at 50% 60%, #3D1F08 0%, #1A1208 70%);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,105,26,0.15) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+  }
+
+  .hero-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(232,168,62,0.4);
+    padding: 0.4em 1.2em;
+    margin-bottom: 2.5rem;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+    animation: fadeDown 0.9s ease 0.1s both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--amber);
+    display: block;
+  }
+
+  .hero-sub {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--haze);
+    margin-top: 1.5rem;
+    max-width: 500px;
+    animation: fadeDown 1s ease 0.2s both;
+  }
+
+  .hero-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 3rem auto;
+    width: 200px;
+    animation: fadeDown 1s ease 0.3s both;
+  }
+
+  .hero-divider::before,
+  .hero-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--amber));
+  }
+
+  .hero-divider::after {
+    background: linear-gradient(to left, transparent, var(--amber));
+  }
+
+  .hop-icon {
+    color: var(--amber);
+    font-size: 1.2rem;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: rgba(245,237,216,0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeDown 1s ease 0.5s both;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--amber), transparent);
+    animation: scrollDrop 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollDrop {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(26,18,8,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(200,105,26,0.2);
+    padding: 0 2rem;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  nav a {
+    display: block;
+    padding: 1rem 1.2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,237,216,0.6);
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%; right: 50%;
+    height: 2px;
+    background: var(--amber);
+    transition: left 0.2s, right 0.2s;
+  }
+
+  nav a:hover { color: var(--gold); }
+  nav a:hover::after { left: 1.2rem; right: 1.2rem; }
+
+  /* ── SECTIONS ── */
+  section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .section-label::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 40px;
+    background: var(--amber);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+
+  h2 em { color: var(--amber); font-style: italic; }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin: 2rem 0 0.8rem;
+  }
+
+  p { color: rgba(245,237,216,0.85); margin-bottom: 1.2rem; }
+
+  /* ── DIVIDERS ── */
+  .section-rule {
+    border: none;
+    border-top: 1px solid rgba(200,105,26,0.2);
+    margin: 0;
+  }
+
+  .card-cta {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .card:hover .card-cta { opacity: 1; }
+  .card { cursor: pointer; }
+
+  /* MODAL */
+  .ing-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  .ing-modal.active { display: flex; }
+
+  .ing-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10,6,2,0.85);
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+  }
+
+  .ing-modal-box {
+    position: relative;
+    z-index: 1;
+    background: #231508;
+    border: 1px solid rgba(200,105,26,0.45);
+    max-width: 620px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 2.5rem;
+    animation: modalIn 0.3s ease both;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .ing-modal-close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: none;
+    border: 1px solid rgba(200,105,26,0.3);
+    color: var(--haze);
+    font-size: 0.85rem;
+    width: 2rem; height: 2rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .ing-modal-close:hover { border-color: var(--amber); color: var(--gold); }
+
+  .ing-modal-box h2 {
+    font-size: 2rem;
+    margin-bottom: 0.3rem;
+  }
+  .ing-modal-box .modal-icon { font-size: 2.5rem; margin-bottom: 0.8rem; display: block; }
+  .ing-modal-box .modal-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    border: 1px solid rgba(232,168,62,0.3);
+    padding: 0.3em 0.8em;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+  }
+  .ing-modal-box p { font-size: 1rem; }
+  .ing-modal-box ul {
+    list-style: none;
+    margin: 1rem 0;
+  }
+  .ing-modal-box ul li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: rgba(245,237,216,0.8);
+    font-size: 0.97rem;
+    display: flex;
+    gap: 0.6rem;
+  }
+  .ing-modal-box ul li::before { content: '▸'; color: var(--amber); flex-shrink: 0; }
+  .modal-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin: 1.5rem 0 0.6rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(200,105,26,0.25);
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+
+  .card {
+    background: rgba(61,38,16,0.4);
+    border: 1px solid rgba(200,105,26,0.2);
+    border-radius: 4px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .card:hover {
+    border-color: var(--amber);
+    transform: translateY(-3px);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--amber);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .card:hover::before { transform: scaleX(1); }
+
+  .card-icon {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  .card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+
+  .card p {
+    font-size: 0.9rem;
+    color: rgba(245,237,216,0.7);
+    margin: 0;
+  }
+
+  /* ── RECIPE BLOCK ── */
+  .recipe {
+    background: rgba(61,38,16,0.3);
+    border: 1px solid rgba(200,105,26,0.3);
+    border-radius: 4px;
+    margin: 3rem 0;
+    overflow: hidden;
+  }
+
+  .recipe-header {
+    background: rgba(200,105,26,0.15);
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid rgba(200,105,26,0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .recipe-header h3 {
+    margin: 0;
+    font-size: 1.6rem;
+    color: var(--cream);
+  }
+
+  .recipe-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    padding: 0.3em 0.8em;
+    border: 1px solid rgba(232,168,62,0.4);
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .recipe-body {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  @media (max-width: 600px) { .recipe-body { grid-template-columns: 1fr; } }
+
+  .recipe-col h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(200,105,26,0.3);
+  }
+
+  .ingredient-list {
+    list-style: none;
+  }
+
+  .ingredient-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.95rem;
+    color: rgba(245,237,216,0.85);
+  }
+
+  .ingredient-list .qty {
+    color: var(--gold);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    margin-left: 1rem;
+  }
+
+  .step-list {
+    list-style: none;
+    counter-reset: steps;
+  }
+
+  .step-list li {
+    counter-increment: steps;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: rgba(245,237,216,0.85);
+  }
+
+  .step-list li::before {
+    content: counter(steps);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--amber);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 1.5rem;
+  }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: flex;
+    gap: 1px;
+    background: rgba(200,105,26,0.2);
+    border: 1px solid rgba(200,105,26,0.2);
+    margin: 2rem 0;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    flex: 1;
+    min-width: 120px;
+    padding: 1.5rem;
+    background: rgba(26,18,8,0.8);
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--amber);
+    display: block;
+  }
+
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,237,216,0.5);
+    display: block;
+    margin-top: 0.3rem;
+  }
+
+  /* ── TROUBLESHOOT TABLE ── */
+  .trouble-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.95rem;
+  }
+
+  .trouble-table thead th {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber);
+    text-align: left;
+    padding: 0.8rem 1rem;
+    border-bottom: 2px solid rgba(200,105,26,0.4);
+  }
+
+  .trouble-table tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.2s;
+  }
+
+  .trouble-table tbody tr:hover {
+    background: rgba(200,105,26,0.08);
+  }
+
+  .trouble-table td {
+    padding: 0.9rem 1rem;
+    color: rgba(245,237,216,0.8);
+    vertical-align: top;
+  }
+
+  .trouble-table td:first-child { color: var(--haze); font-style: italic; }
+  .trouble-table td:last-child { color: rgba(245,237,216,0.6); font-size: 0.9rem; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-left: 3px solid var(--amber);
+    padding: 1.2rem 1.5rem;
+    margin: 2rem 0;
+    background: rgba(200,105,26,0.08);
+    font-style: italic;
+    color: var(--haze);
+    font-size: 1.05rem;
+  }
+
+  .callout strong {
+    font-style: normal;
+    color: var(--gold);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── TECHNIQUE ACCORDION ── */
+  .accordion-item {
+    border-bottom: 1px solid rgba(200,105,26,0.2);
+  }
+
+  .accordion-trigger {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--cream);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    text-align: left;
+    padding: 1.2rem 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.2s;
+  }
+
+  .accordion-trigger:hover { color: var(--gold); }
+
+  .accordion-trigger span {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    color: var(--amber);
+    transition: transform 0.3s;
+  }
+
+  .accordion-trigger.open span { transform: rotate(45deg); }
+
+  .accordion-content {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease;
+  }
+
+  .accordion-content.open { max-height: 600px; }
+
+  .accordion-inner {
+    padding: 0 0 1.5rem;
+    color: rgba(245,237,216,0.8);
+    font-size: 0.97rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 4rem 2rem;
+    border-top: 1px solid rgba(200,105,26,0.2);
+    background: rgba(10,6,2,0.5);
+  }
+
+  footer .footer-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--amber);
+    margin-bottom: 0.5rem;
+  }
+
+  footer p {
+    font-size: 0.85rem;
+    color: rgba(245,237,216,0.35);
+  }
+
+  /* ── UTILITY ── */
+  .text-amber { color: var(--amber); }
+  .text-gold { color: var(--gold); }
+
+  .wide-rule {
+    border: none;
+    border-top: 1px solid rgba(200,105,26,0.15);
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-badge">The Brewer's Codex · Vol. II</div>
+  <h1 class="hero-title">
+    The Art of<br>
+    <em>Craft Beer</em>
+  </h1>
+  <p class="hero-sub">An intermediate field guide to recipes, technique, and troubleshooting</p>
+  <div class="hero-divider"><span class="hop-icon">✦</span></div>
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <ul>
+    <li><a href="#ingredients">Ingredients</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#recipes">Recipes</a></li>
+    <li><a href="#techniques">Techniques</a></li>
+    <li><a href="#troubleshoot">Troubleshoot</a></li>
+  </ul>
+</nav>
+
+<!-- INGREDIENTS -->
+<section id="ingredients">
+  <div class="section-label">Chapter One</div>
+  <h2>Know Your <em>Raw Materials</em></h2>
+  <p>Every great beer starts at the ingredient level. At the intermediate stage, you move beyond basics and start treating each component as a variable you control — not just a checkbox.</p>
+
+  <p style="font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;color:var(--amber);margin-bottom:1rem;">↓ CLICK ANY CARD TO EXPAND</p>
+
+  <div class="card-grid">
+    <div class="card" data-ingredient="base">
+      <span class="card-icon">🌾</span>
+      <h4>Base Malts</h4>
+      <p>Pale Ale, Pilsner, Vienna, Munich — your fermentable backbone. They define color, body, and malt character.</p>
+      <span class="card-cta">Learn more →</span>
+    </div>
+    <div class="card" data-ingredient="specialty">
+      <span class="card-icon">🟤</span>
+      <h4>Specialty Malts</h4>
+      <p>Crystal, chocolate, roasted barley — used for aroma, sweetness, and color. Keep under 20% of grain bill.</p>
+      <span class="card-cta">Learn more →</span>
+    </div>
+    <div class="card" data-ingredient="hops">
+      <span class="card-icon">🌿</span>
+      <h4>Hops</h4>
+      <p>Bittering (60 min), flavor (15 min), aroma (0 min/dry hop). Alpha acids vs. oil content governs their role.</p>
+      <span class="card-cta">Learn more →</span>
+    </div>
+    <div class="card" data-ingredient="yeast">
+      <span class="card-icon">🧫</span>
+      <h4>Yeast</h4>
+      <p>The single most overlooked variable. Flocculation, attenuation, and ester profile define half the beer's character.</p>
+      <span class="card-cta">Learn more →</span>
+    </div>
+    <div class="card" data-ingredient="water">
+      <span class="card-icon">💧</span>
+      <h4>Water Chemistry</h4>
+      <p>Sulfate vs. chloride ratio shapes perception of bitterness and softness. Match your water to the style.</p>
+      <span class="card-cta">Learn more →</span>
+    </div>
+    <div class="card" data-ingredient="adjuncts">
+      <span class="card-icon">🔬</span>
+      <h4>Adjuncts</h4>
+      <p>Oats, wheat, rye, corn sugar. Each alters mouthfeel, head retention, and fermentability.</p>
+      <span class="card-cta">Learn more →</span>
+    </div>
+  </div>
+
+  <!-- INGREDIENT MODAL -->
+  <div id="ingredient-modal" class="ing-modal" role="dialog" aria-modal="true">
+    <div class="ing-modal-backdrop"></div>
+    <div class="ing-modal-box">
+      <button class="ing-modal-close" aria-label="Close">✕</button>
+      <div id="ing-modal-content"></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Pro Note</strong>
+    Water is the ingredient most intermediate brewers underestimate. A Pale Ale profile (high sulfate ~150 ppm) will make identical hops taste drier and crisper than a Stout profile (high chloride ~100 ppm). Invest in a basic water chemistry kit.
+  </div>
+</section>
+
+<hr class="wide-rule">
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-label">Chapter Two</div>
+  <h2>The <em>Brewing</em> Process</h2>
+  <p>All-grain brewing gives you complete control. These are the critical stages where intermediate brewers level up.</p>
+
+  <h3>Mash Temperature & Efficiency</h3>
+  <p>Mash at 64–67°C for a drier, more fermentable wort. Push to 68–70°C for a fuller body with residual sweetness. Your mash efficiency targets 70–80% — track it every batch to dial in your system.</p>
+
+  <div class="stats-row">
+    <div class="stat">
+      <span class="stat-value">75%</span>
+      <span class="stat-label">Target Efficiency</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">67°C</span>
+      <span class="stat-label">Sweet Spot Mash</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">60 min</span>
+      <span class="stat-label">Standard Mash</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">90 min</span>
+      <span class="stat-label">High-Adjunct Mash</span>
+    </div>
+  </div>
+
+  <h3>Boil & Hop Additions</h3>
+  <p>A vigorous rolling boil sterilizes wort and drives off DMS (dimethyl sulfide — a cooked corn off-flavor). Precise hop timing is everything: bittering additions at 60 minutes, flavor at 15, aroma at flameout or whirlpool. Whirlpool hops at 77°C extract oils with minimal bitterness.</p>
+
+  <h3>Fermentation Control</h3>
+  <p>Temperature is king. Even 1°C above optimal yeast range can push esters and fusel alcohols. A simple fermentation chamber (a chest freezer with an inkbird controller) is the best upgrade an intermediate brewer can make. Pitch the right amount of yeast — underpitching is the root of half all off-flavors.</p>
+
+  <div class="callout">
+    <strong>Key Insight</strong>
+    Calculate your pitch rate: for ales, target 0.75 million cells/mL/°Plato. For lagers, double it. Use an online pitch rate calculator — it takes two minutes and eliminates one of the biggest failure points.
+  </div>
+</section>
+
+<hr class="wide-rule">
+
+<!-- RECIPES -->
+<section id="recipes">
+  <div class="section-label">Chapter Three</div>
+  <h2>Field-Tested <em>Recipes</em></h2>
+  <p>Three recipes built for the intermediate brewer — each targeting a different technique and style. All scaled to 19L (5 US gallons), targeting 75% efficiency.You can find more recipes like this on byo.com</p>
+
+  <!-- RECIPE 1 -->
+  <div class="recipe">
+    <div class="recipe-header">
+      <div>
+        <h3>West Coast IPA</h3>
+        <p style="color: var(--haze); font-style: italic; margin: 0.3rem 0 0; font-size:0.95rem">Clean, resinous, bone-dry. The classic benchmark.</p>
+      </div>
+      <div class="recipe-tags">
+        <span class="tag">OG 1.065</span>
+        <span class="tag">IBU 65</span>
+        <span class="tag">SRM 6</span>
+        <span class="tag">ABV ~7%</span>
+      </div>
+    </div>
+    <div class="recipe-body">
+      <div class="recipe-col">
+        <h4>Grain Bill</h4>
+        <ul class="ingredient-list">
+          <li>2-Row Pale Malt <span class="qty">4.5 kg</span></li>
+          <li>Carapils (Dextrine) <span class="qty">225 g</span></li>
+          <li>Crystal 40L <span class="qty">225 g</span></li>
+          <li>White Wheat Malt <span class="qty">225 g</span></li>
+        </ul>
+        <h4 style="margin-top:1.5rem">Hops</h4>
+        <ul class="ingredient-list">
+          <li>Magnum (60 min) <span class="qty">28 g</span></li>
+          <li>Centennial (15 min) <span class="qty">21 g</span></li>
+          <li>Simcoe (Flameout) <span class="qty">28 g</span></li>
+          <li>Citra (Dry Hop 4d) <span class="qty">42 g</span></li>
+          <li>Mosaic (Dry Hop 4d) <span class="qty">42 g</span></li>
+        </ul>
+        <h4 style="margin-top:1.5rem">Yeast</h4>
+        <ul class="ingredient-list">
+          <li>WY1056 / US-05 <span class="qty">1 pkg</span></li>
+        </ul>
+      </div>
+      <div class="recipe-col">
+        <h4>Process Notes</h4>
+        <ol class="step-list">
+          <li>Mash at 66°C for 60 min for a dry finish.</li>
+          <li>Collect 26 liters pre-boil. Boil 60 min vigorously.</li>
+          <li>Chill to 19°C. Pitch yeast, ferment 5–7 days.</li>
+          <li>Dry hop when gravity reaches 1.020, for 4 days at 20°C.</li>
+          <li>Cold crash to 1°C for 48 hours before packaging.</li>
+          <li>Carbonate to 2.4 vol CO₂. Drink fresh within 60 days.</li>
+        </ol>
+        <div class="callout" style="margin-top:1.5rem">
+          <strong>Tip</strong>
+          Add dry hops under CO₂ pressure to minimize oxygen pickup. Oxygen is the enemy of hoppy beers.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECIPE 2 -->
+  <div class="recipe">
+    <div class="recipe-header">
+      <div>
+        <h3>Export Stout</h3>
+        <p style="color: var(--haze); font-style: italic; margin: 0.3rem 0 0; font-size:0.95rem">Rich and roasty, with a silky body and restrained bitterness.</p>
+      </div>
+      <div class="recipe-tags">
+        <span class="tag">OG 1.072</span>
+        <span class="tag">IBU 40</span>
+        <span class="tag">SRM 40</span>
+        <span class="tag">ABV ~7.5%</span>
+      </div>
+    </div>
+    <div class="recipe-body">
+      <div class="recipe-col">
+        <h4>Grain Bill</h4>
+        <ul class="ingredient-list">
+          <li>Maris Otter <span class="qty">5.0 kg</span></li>
+          <li>Flaked Oats <span class="qty">450 g</span></li>
+          <li>Chocolate Malt <span class="qty">340 g</span></li>
+          <li>Roasted Barley <span class="qty">225 g</span></li>
+          <li>Crystal 80L <span class="qty">225 g</span></li>
+          <li>Black Patent Malt <span class="qty">115 g</span></li>
+        </ul>
+        <h4 style="margin-top:1.5rem">Hops</h4>
+        <ul class="ingredient-list">
+          <li>East Kent Goldings 60 min <span class="qty">42 g</span></li>
+          <li>East Kent Goldings 15 min <span class="qty">14 g</span></li>
+        </ul>
+        <h4 style="margin-top:1.5rem">Yeast</h4>
+        <ul class="ingredient-list">
+          <li>WY1084 Irish Ale <span class="qty">1 pkg</span></li>
+        </ul>
+      </div>
+      <div class="recipe-col">
+        <h4>Process Notes</h4>
+        <ol class="step-list">
+          <li>Mash at 68°C for 60 min — a fuller body complements the roast.</li>
+          <li>Sparge slowly. Pre-boil 28 liters. Boil 90 min to reduce DMS risk.</li>
+          <li>Chill to 18°C. Ferment for 10–14 days.</li>
+          <li>Allow diacetyl rest at 20°C for 48 hours after primary is complete.</li>
+          <li>Cold condition for 1 week at 1°C for smoothness.</li>
+          <li>Carbonate to 2.0 vol CO₂ — traditional stout level.</li>
+        </ol>
+        <div class="callout" style="margin-top:1.5rem">
+          <strong>Tip</strong>
+          Add 5–10% of your roasted grains post-mash (cold-steep method) to reduce harsh acridness while preserving color.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECIPE 3 -->
+  <div class="recipe">
+    <div class="recipe-header">
+      <div>
+        <h3>Bavarian Hefeweizen</h3>
+        <p style="color: var(--haze); font-style: italic; margin: 0.3rem 0 0; font-size:0.95rem">Banana and clove driven. A masterclass in yeast control.</p>
+      </div>
+      <div class="recipe-tags">
+        <span class="tag">OG 1.052</span>
+        <span class="tag">IBU 14</span>
+        <span class="tag">SRM 4</span>
+        <span class="tag">ABV ~5.3%</span>
+      </div>
+    </div>
+    <div class="recipe-body">
+      <div class="recipe-col">
+        <h4>Grain Bill</h4>
+        <ul class="ingredient-list">
+          <li>White Wheat Malt <span class="qty">3.2 kg</span></li>
+          <li>Pilsner Malt <span class="qty">2.3 kg</span></li>
+          <li>Rice Hulls (lautering) <span class="qty">225 g</span></li>
+        </ul>
+        <h4 style="margin-top:1.5rem">Hops</h4>
+        <ul class="ingredient-list">
+          <li>Hallertau (60 min) <span class="qty">34 g</span></li>
+        </ul>
+        <h4 style="margin-top:1.5rem">Yeast</h4>
+        <ul class="ingredient-list">
+          <li>WY3068 Weihenstephan <span class="qty">2 pkgs</span></li>
+        </ul>
+      </div>
+      <div class="recipe-col">
+        <h4>Process Notes</h4>
+        <ol class="step-list">
+          <li>Perform a ferulic acid rest at 44°C for 15 min before mashing — this boosts clove character (4-vinylguaiacol).</li>
+          <li>Mash at 67°C for 45 min.</li>
+          <li>Ferment at 17°C to favor banana esters. Raise to 18°C at terminal gravity.</li>
+          <li>Do NOT fine, filter, or cold crash — haze is correct here.</li>
+          <li>Package with some yeast in suspension. Serve at 7–10°C.</li>
+        </ol>
+        <div class="callout" style="margin-top:1.5rem">
+          <strong>Tip</strong>
+          WY3068 is incredibly temperature-sensitive. At 18°C+ you get banana. Below 16°C you get clove. Most great Hefeweizens sit right at 16°C.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="wide-rule">
+
+<!-- TECHNIQUES -->
+<section id="techniques">
+  <div class="section-label">Chapter Four</div>
+  <h2>Advanced <em>Techniques</em></h2>
+  <p>These are the methods that separate consistently excellent brewers from occasional lucky ones. Each represents a genuine upgrade in your brewing capability.</p>
+
+  <div id="accordion">
+
+    <div class="accordion-item">
+      <button class="accordion-trigger" data-index="0">
+        Yeast Harvesting & Repitching
+        <span>+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-inner">
+          <p>Repitching harvested yeast is one of the most cost-effective skills to develop. After fermentation, cold crash to compact the yeast cake, then decant the beer. Transfer healthy slurry into sanitized mason jars — store at 1°C and use within 2 weeks.</p>
+          <p>Avoid harvesting from heavily dry-hopped beers or any batch you suspect had infection issues. After 5–6 generations the yeast profile may drift — track generations in a brewing log. The first two or three repitches often yield <em>better</em> performance than fresh packets, as the yeast is already adapted to your wort.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <button class="accordion-trigger" data-index="1">
+        Dry Hopping Under Pressure
+        <span>+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-inner">
+          <p>Oxygen pickup during dry hopping is the number one destroyer of hoppy beers. Even a few ppb of dissolved oxygen will cause trans-2-nonenal — cardboard aroma — within days of packaging.</p>
+          <p>The solution: use a closed fermentor with a floating dip tube (or a pressure-capable vessel like a Speidel or Fermzilla). Purge all headspace with CO₂ before opening. Add hops via a hop torpedo or sealed port while maintaining positive pressure. This technique alone can extend your IPA's peak freshness from 3 weeks to 6–8 weeks.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <button class="accordion-trigger" data-index="2">
+        Step Mashing
+        <span>+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-inner">
+          <p>Modern well-modified malts rarely require step mashing, but it's a powerful tool for specific styles. The key rests: 40°C for ferulic acid (clove in Hefeweizens), 45°C for beta-glucan reduction (improves lautering with adjuncts), 60–65°C for beta-amylase (fermentability), and 68–72°C for alpha-amylase (body).</p>
+          <p>If your system doesn't support direct-fire step mashing, use a HERMS or RIMS setup, or blend hot water additions (infusion step mashing). Protein rests at 50°C are rarely needed with modern malts and can actually harm head retention if overdone.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <button class="accordion-trigger" data-index="3">
+        Water Chemistry Adjustments
+        <span>+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-inner">
+          <p>Target mash pH of 5.2–5.4 for maximum enzyme activity and clarity. Use lactic acid or acidulated malt to lower pH, and calcium carbonate (chalk) to raise it.</p>
+          <p>For mineral additions: calcium sulfate (gypsum) enhances hop bitterness perception and dryness — ideal for IPAs. Calcium chloride adds softness and malt roundness — ideal for stouts, milds, and Helles lagers. Aim for 50–100 ppm calcium at minimum for yeast health. Never exceed 400 ppm total sulfate. Brewing software like Bru'n Water or BrewFather makes this approachable in minutes.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <button class="accordion-trigger" data-index="4">
+        Fining & Clarification
+        <span>+</span>
+      </button>
+      <div class="accordion-content">
+        <div class="accordion-inner">
+          <p>For styles that demand clarity (lagers, Kölsch, Märzen), fining is essential. Irish moss or Whirlfloc at 15 minutes in the boil precipitates proteins during the cold break. Gelatin finings added to cold-crashed beer (1°C) bind yeast and drop it out within 48–72 hours.</p>
+          <p>Note: gelatin is not vegan. For vegan-friendly clarification, use Biofine Clear (silica hydrogel) or simply allow adequate cold conditioning time. Never fine a Hefeweizen, NEIPA, or any style where haze is intentional and style-appropriate.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="wide-rule">
+
+<!-- TROUBLESHOOT -->
+<section id="troubleshoot">
+  <div class="section-label">Chapter Five</div>
+  <h2>The <em>Troubleshooter's</em> Table</h2>
+  <p>Identify off-flavors by what you taste or smell, and trace them back to root cause. Most problems in craft brewing are process problems, not ingredient problems.</p>
+
+  <table class="trouble-table">
+    <thead>
+      <tr>
+        <th>What You Detect</th>
+        <th>Root Cause</th>
+        <th>Fix It Next Batch</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Cooked corn / DMS</td>
+        <td>Covered boil, inadequate boil vigor, or poor chill speed with Pilsner malt</td>
+        <td>Uncovered kettle, rolling boil, chill under 27°C within 20 min</td>
+      </tr>
+      <tr>
+        <td>Butter / butterscotch</td>
+        <td>Diacetyl — underpitching, premature cold crash, or weak yeast</td>
+        <td>Diacetyl rest at 20°C for 2 days before crashing; pitch correct rate</td>
+      </tr>
+      <tr>
+        <td>Green apple / acetaldehyde</td>
+        <td>Young beer packaged too early; yeast didn't fully clean up</td>
+        <td>Allow extra 3–5 days at fermentation temp after apparent FG</td>
+      </tr>
+      <tr>
+        <td>Cardboard / paper</td>
+        <td>Oxidation — either hot-side (boil) or cold-side (packaging)</td>
+        <td>Minimize splashing, purge all vessels, dry hop under pressure</td>
+      </tr>
+      <tr>
+        <td>Astringency / harsh tannins</td>
+        <td>Over-sparging, sparge water too hot (&gt;77°C), or over-crushing malt</td>
+        <td>Stop sparge at 1.010 gravity, limit sparge temp, check crush gap</td>
+      </tr>
+      <tr>
+        <td>Sour / vinegar</td>
+        <td>Acetic acid bacteria (sanitation failure) or wild yeast contamination</td>
+        <td>Re-audit sanitization procedure; replace old plastic equipment</td>
+      </tr>
+      <tr>
+        <td>Band-aid / medicinal</td>
+        <td>Chlorophenols — chlorinated tap water reacting with wild yeast</td>
+        <td>Use campden tablet (potassium metabisulfite) to neutralize chloramines</td>
+      </tr>
+      <tr>
+        <td>Thin body / watery</td>
+        <td>Mash too low, over-attenuated, or insufficient specialty malt</td>
+        <td>Mash at 68–69°C; add 5% oats or Crystal 60 to grain bill</td>
+      </tr>
+      <tr>
+        <td>Hazy when clarity expected</td>
+        <td>Chill haze (protein-tannin), yeast in suspension, or starch haze</td>
+        <td>Whirlfloc in boil + gelatin fining + extended cold crash at 1°C</td>
+      </tr>
+      <tr>
+        <td>Hot / boozy / solvent</td>
+        <td>Fusel alcohols from fermenting too warm or severely underpitching</td>
+        <td>Control fermentation temp strictly; pitch to correct cell count</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>The Golden Rule</strong>
+    Change one variable per batch. When you troubleshoot, isolate. If you adjust mash temp, yeast pitch rate, and fermentation temperature simultaneously, you'll never know which variable fixed the problem — or created a new one.
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-title">The Brewer's Codex</div>
+  <p>An intermediate guide to craft beer · All-grain brewing · 5-gallon scale</p>
+  <p style="margin-top:0.5rem">Brew deliberately. Document everything. Drink critically.</p>
+</footer>
+
+<script>
+  // ── INGREDIENT MODAL DATA ──
+  const ingredients = {
+    base: {
+      icon: '🌾',
+      title: 'Base Malts',
+      tag: 'FERMENTABLE BACKBONE · 80–100% OF GRAIN BILL',
+      intro: 'Base malts provide the fermentable sugars that yeast converts into alcohol and CO₂. They are fully modified and enzymatically active — meaning they carry enough diastatic power to convert themselves and most specialty additions.',
+      subtitle1: 'Common Base Malts',
+      items1: [
+        'Pale Ale Malt — Versatile, biscuity, slightly toasty. The workhorse of British and American ales.',
+        'Pilsner Malt — Pale, clean, light bready character. Use for lagers, Kölsch, Hefeweizen. Boil 90 min to eliminate DMS.',
+        'Vienna Malt — Slightly darker than Pilsner. Adds a toasty, bread-crust sweetness. Great in Märzen and Amber ales.',
+        'Munich Malt — Rich malt backbone, deep golden color. Use at 10–50% for Bock, Dunkel, and Märzen.',
+        'Maris Otter — Premium British base malt. Nutty, biscuity, complex. Excellent for stouts, bitters, and porters.',
+      ],
+      subtitle2: 'Intermediate Considerations',
+      items2: [
+        'Freshly milled malt performs significantly better. Crush within 24 hours of brewing if possible.',
+        'Diastatic power (°Lintner) matters when adding large proportions of unmalted adjuncts — keep DP above 40°L.',
+        'Store base malt sealed in a cool, dry place. Whole grain keeps 1–2 years; crushed malt goes stale in days.',
+      ]
+    },
+    specialty: {
+      icon: '🟤',
+      title: 'Specialty Malts',
+      tag: 'FLAVOR & COLOR · KEEP UNDER 20% OF GRAIN BILL',
+      intro: 'Specialty malts are used in smaller quantities to add color, flavor complexity, sweetness, and body. Unlike base malts, most do not need to be mashed — they have been kiln-roasted or caramelized during production. However, always mash them together for temperature stability.',
+      subtitle1: 'Key Specialty Malts by Category',
+      items1: [
+        'Crystal / Caramel (10L–120L) — Adds residual sweetness and body. Higher °L = darker color and more raisin/plum notes. Use 5–10%.',
+        'Biscuit / Victory — Warm, bready, nutty flavor without added sweetness. Great in ambers and English ales. Use up to 10%.',
+        'Chocolate Malt — Smooth dark chocolate and coffee notes. Less harsh than roasted barley. Stouts and porters.',
+        'Roasted Barley — Unmalted, intensely dark. Dry, bitter coffee character. The defining grain of Irish Stout.',
+        'Black Patent Malt — Use sparingly (1–3%). Adds jet-black color and sharp roast. Can overwhelm if overdone.',
+        'Melanoidin Malt — Adds deep malt complexity and enhanced Maillard-reaction character. Use 5–15%.',
+      ],
+      subtitle2: 'Rules of Thumb',
+      items2: [
+        'Roasted malts above 3% will assert bitterness — balance with lower hopping rates.',
+        'High Crystal content (15%+) can leave excessive sweetness and reduce attenuation.',
+        'Mix light and dark specialty malts for layered complexity rather than one-note roast.',
+      ]
+    },
+    hops: {
+      icon: '🌿',
+      title: 'Hops',
+      tag: 'BITTERING · FLAVOR · AROMA',
+      intro: 'Hops contribute bitterness (alpha acids, isomerized during the boil), flavor (volatile oils surviving late additions), and aroma (oils surviving dry hopping or whirlpool). Understanding this timing distinction is the core of hop-forward brewing.',
+      subtitle1: 'Addition Timing',
+      items1: [
+        '60 min — Bittering. High-alpha varieties (Magnum, Warrior, Columbus). Most oil driven off; only iso-alpha acids remain.',
+        '15 min — Flavor. Balanced varieties (Cascade, Centennial, Amarillo). Some bitterness + flavor contribution.',
+        'Flameout / Whirlpool — Aroma with minimal bitterness. Whirlpool at 77–53°C for maximum oil retention.',
+        'Dry Hop — Pure aroma, zero bitterness. Added post-fermentation. Biotransformation with active yeast adds complexity.',
+      ],
+      subtitle2: 'Notable Varieties',
+      items2: [
+        'Citra — High-impact tropical: passion fruit, lime, lychee. Potent — use carefully.',
+        'Mosaic — Blueberry, tropical, earthy. Extraordinarily complex. A modern essential.',
+        'Simcoe — Pine, passion fruit, onion/garlic at high rates. Blend with Citra to soften.',
+        'Hallertau Mittelfrüh — Noble. Spicy, herbal, floral. Classic lager and Hefeweizen hop.',
+        'East Kent Goldings — Earthy, honey, spice. The quintessential British hop.',
+        'Nelson Sauvin — White wine, gooseberry, pungent. Use at 10–30% of dry hop bill.',
+      ]
+    },
+    yeast: {
+      icon: '🧫',
+      title: 'Yeast',
+      tag: 'THE MOST CRITICAL VARIABLE',
+      intro: 'Yeast is responsible for converting sugars into alcohol and CO₂, and produces a wide spectrum of flavor compounds — esters (fruity), phenols (spicy/smoky), and fusel alcohols (hot/solvent). Strain selection and fermentation management define the character of your beer as much as any ingredient.',
+      subtitle1: 'Key Yeast Attributes',
+      items1: [
+        'Attenuation (%) — How much sugar the yeast ferments. High (80%+) = dry beer. Low (65–72%) = fuller, sweeter finish.',
+        'Flocculation — How readily yeast clumps and drops out. High flocculation = clear beer. Low = hazy, ester-rich.',
+        'Temperature Range — The most critical management parameter. Controls ester and fusel production dramatically.',
+        'Alcohol Tolerance — Most ale strains handle up to 10–12% ABV before struggling.',
+      ],
+      subtitle2: 'Recommended Workhorse Strains',
+      items2: [
+        'WY1056 / US-05 — Clean, neutral American ale. The blank canvas. Ferment at 18–26°C.',
+        'WY1968 / London ESB — High flocculation, rich malt expression, slight stone fruit. English ales.',
+        'WY3068 — Weihenstephan Hefeweizen. Banana at 20°C+, clove at 14-17°C. Incredibly sensitive to temperature.',
+        'WY2124 Bohemian Lager — Clean, crisp lager yeast. Ferment at 8–12°C for authentic character.',
+        'Kveik strains — Norwegian farmhouse. Ferments hot (32°C+) with clean, citrusy character. Perfect for fast turnarounds.',
+      ]
+    },
+    water: {
+      icon: '💧',
+      title: 'Water Chemistry',
+      tag: 'THE MOST UNDERRATED INGREDIENT',
+      intro: 'Beer is 90%+ water. Its mineral content shapes mash pH, yeast health, hop perception, and overall flavor balance. Matching water chemistry to style is a genuine intermediate-level skill that produces noticeable results.',
+      subtitle1: 'Key Ions & Their Effects',
+      items1: [
+        'Calcium (Ca²⁺) — Essential for yeast health and enzyme activity. Target 50–150 ppm minimum.',
+        'Sulfate (SO₄²⁻) — Enhances hop dryness, bitterness, and crispness. IPAs: 150–300 ppm. Lagers: 50–100 ppm.',
+        'Chloride (Cl⁻) — Adds softness, malt roundness, fullness. Stouts & Milds: 100–150 ppm. IPAs: keep low (50 ppm).',
+        'Bicarbonate (HCO₃⁻) — Raises mash pH. Useful for dark beers with acidic roasted malts. Counterproductive for light beers.',
+        'Magnesium — Yeast nutrient at low levels. Harsh and astringent above 30 ppm. Keep below 20 ppm.',
+      ],
+      subtitle2: 'Style Water Profiles',
+      items2: [
+        'Burton (IPA) — Ca 295 / SO₄ 725 / Cl 25. Extreme sulfate. The template for dry, bitter IPAs.',
+        'Dublin (Stout) — Ca 115 / HCO₃ 200 / Cl 60. High bicarbonate balances roasted malt acidity.',
+        'Munich (Lager) — Ca 75 / SO₄ 10 / Cl 2. Extremely soft, neutral. Lets malt speak.',
+        'Pilsen (Pilsner) — The softest water on earth. Ca 10, nearly zero everything. Brilliant hop clarity.',
+      ]
+    },
+    adjuncts: {
+      icon: '🔬',
+      title: 'Adjuncts',
+      tag: 'MOUTHFEEL · FERMENTABILITY · CHARACTER',
+      intro: 'Adjuncts are non-malt fermentables or flavor additions used to modify body, fermentability, mouthfeel, or flavor. Used thoughtfully, they are not shortcuts — they are tools that expand what your beer can be.',
+      subtitle1: 'Common Adjuncts & Their Role',
+      items1: [
+        'Flaked Oats — Silky mouthfeel, haze, head retention. Essential in NEIPAs and Oatmeal Stouts. Use 10–20%.',
+        'Flaked Wheat — Haze, protein, head. Less heavy than oats. Use in Hefeweizens and hazy ales. Up to 20%.',
+        'Flaked Rye — Spicy, earthy character. Adds complexity and slick mouthfeel. Use 5–15% — lautering can get sticky.',
+        'Corn Sugar (Dextrose) — 100% fermentable. Boosts ABV without adding body. Common in Belgian strong ales. Use 5–15%.',
+        'Lactose — Unfermentable milk sugar. Permanent sweetness and body. Defines Milk Stouts and some Pastry IPAs.',
+        'Rice Hulls — Adds no flavor. Used as lautering aid with wheat-heavy or rye grain bills to prevent stuck sparges.',
+      ],
+      subtitle2: 'Intermediate Tips',
+      items2: [
+        'Flaked adjuncts contain no enzymes — rely on base malt diastatic power to convert them.',
+        'Oats above 20% will create a velvety, almost viscous mouthfeel — desirable in some styles, cloying in others.',
+        'Corn sugar ferments cleaner than table sugar and is the preferred option for boosting gravity without off-flavors.',
+      ]
+    }
+  };
+
+  // ── MODAL LOGIC ──
+  const modal = document.getElementById('ingredient-modal');
+  const modalContent = document.getElementById('ing-modal-content');
+
+  function renderModal(key) {
+    const d = ingredients[key];
+    if (!d) return;
+    modalContent.innerHTML = `
+      <span class="modal-icon">${d.icon}</span>
+      <div class="modal-tag">${d.tag}</div>
+      <h2>${d.title}</h2>
+      <p>${d.intro}</p>
+      <div class="modal-subtitle">${d.subtitle1}</div>
+      <ul>${d.items1.map(i => `<li>${i}</li>`).join('')}</ul>
+      <div class="modal-subtitle">${d.subtitle2}</div>
+      <ul>${d.items2.map(i => `<li>${i}</li>`).join('')}</ul>
+    `;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.card[data-ingredient]').forEach(card => {
+    card.addEventListener('click', () => renderModal(card.dataset.ingredient));
+  });
+
+  document.querySelector('.ing-modal-close').addEventListener('click', closeModal);
+  document.querySelector('.ing-modal-backdrop').addEventListener('click', closeModal);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // Accordion
+  document.querySelectorAll('.accordion-trigger').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const content = btn.nextElementSibling;
+      const isOpen = content.classList.contains('open');
+
+      document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
+      document.querySelectorAll('.accordion-trigger').forEach(b => b.classList.remove('open'));
+
+      if (!isOpen) {
+        content.classList.add('open');
+        btn.classList.add('open');
+      }
+    });
+  });
+
+  // Fade-in sections on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('section').forEach(sec => {
+    sec.style.opacity = '0';
+    sec.style.transform = 'translateY(30px)';
+    sec.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+    observer.observe(sec);
+  });
+</script>
+
+</body>
+</html>
